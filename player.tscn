@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://b16mc3eibmru1"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_xp4va"]
+[ext_resource type="Script" path="res://sync.gd" id="2_0vaik"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_am6i0"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rd635"]
+material = SubResource("StandardMaterial3D_am6i0")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_urlvx"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xi6mf"]
+properties/0/path = NodePath(".:pos")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_xp4va")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_rd635")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_urlvx")
+
+[node name="PlayerTag" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36375, 0)
+billboard = 1
+text = "PLAYER"
+font_size = 64
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_0vaik")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Node"]
+replication_config = SubResource("SceneReplicationConfig_xi6mf")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.69445)
+spring_length = 3.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[connection signal="synchronized" from="Node/MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bq4t8r42pe2ce"]
+[gd_scene load_steps=4 format=3 uid="uid://skc6flcjuc4q"]
 
-[ext_resource type="Script" path="res://net.gd" id="1_rxc84"]
+[ext_resource type="Script" path="res://network.gd" id="1_asg7i"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_my4ps"]
 size = Vector3(10, 1, 10)
@@ -9,7 +9,7 @@ size = Vector3(10, 1, 10)
 size = Vector3(10, 1, 10)
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_rxc84")
+script = ExtResource("1_asg7i")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
